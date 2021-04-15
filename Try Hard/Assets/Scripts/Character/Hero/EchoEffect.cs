@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EchoEffect : MonoBehaviour
 {
-    public float timeBtwSpawns;
+    private float timeBtwSpawns;
     public float startTimeBtwSpawns;
 
     public GameObject echo;
@@ -17,7 +17,7 @@ public class EchoEffect : MonoBehaviour
             if (timeBtwSpawns <= 0)
             {
                 GameObject instance = (GameObject)Instantiate(echo, transform.position,Quaternion.identity);
-                Destroy(instance,8f);
+                Destroy(instance,2f);
                 timeBtwSpawns = startTimeBtwSpawns;
             }
             else
@@ -25,5 +25,6 @@ public class EchoEffect : MonoBehaviour
                 timeBtwSpawns -= Time.deltaTime;
             }
         }
+
     }
 }

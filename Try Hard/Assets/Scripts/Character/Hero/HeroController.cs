@@ -18,9 +18,9 @@ public class HeroController : MonoBehaviour
     GameObject temp;
     private BoxCollider2D boxCollider2D;
     public GameObject Dialogue;
-    public Vector2 movement;
+    Vector2 movement;
+    KeyCode lastKeyCode;
     //Int Values   
-    private int direction;
     private int JumpCount;
     //Float Values
     [Header("FLOAT VALUES")]
@@ -28,14 +28,12 @@ public class HeroController : MonoBehaviour
     public float GravityScale;
     public float Speed;
     public float JumpForce;
-
     public float TimeJumpEffect;
-    public float dashSpeed;
+    
     public static float horizontal;
 
     //Bool Values
     private bool isGround;
-    public static bool isDashing;
     public static bool isFaceRight;
 
     
@@ -55,6 +53,7 @@ public class HeroController : MonoBehaviour
         _rb.gravityScale = GravityScale;
         // Movement
             horizontal = Input.GetAxisRaw("Horizontal");
+            
         // Jump
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -65,34 +64,16 @@ public class HeroController : MonoBehaviour
                 StartCoroutine(DestroyJumpEffect());
             }  
         }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            Dashing();
-        }
+        
+        GroundCheck();
         SetAnimaition();
     }
-    private void FixedUpdate() {
-        
-            movement = new Vector2(horizontal * Speed,_rb.velocity.y);
-
-            _rb.velocity = movement;
-            GroundCheck();
-    }
     
-    void Dashing()
-    {
-        if (isFaceRight)
-        {
-            _rb.AddForce(new Vector2(1,0) * dashSpeed,ForceMode2D.Impulse);
-            Debug.Log("Helo");
-        }
-        
-        if (!isFaceRight)
-        {
-            _rb.velocity = Vector2.left * dashSpeed;
-        }
-    } 
+    private void FixedUpdate() {
+        movement = new Vector2(horizontal * Speed,_rb.velocity.y);
+        _rb.velocity = movement;
+    }
+
     void GroundCheck(){
         isGround = false;
 
