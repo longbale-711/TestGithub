@@ -30,10 +30,12 @@ public class HeroController : MonoBehaviour
     public float JumpForce;
 
     public float TimeJumpEffect;
+    public float dashSpeed;
     public static float horizontal;
 
     //Bool Values
     private bool isGround;
+    public static bool isDashing;
     public static bool isFaceRight;
 
     
@@ -63,6 +65,11 @@ public class HeroController : MonoBehaviour
                 StartCoroutine(DestroyJumpEffect());
             }  
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Dashing();
+        }
         SetAnimaition();
     }
     private void FixedUpdate() {
@@ -72,6 +79,20 @@ public class HeroController : MonoBehaviour
             _rb.velocity = movement;
             GroundCheck();
     }
+    
+    void Dashing()
+    {
+        if (isFaceRight)
+        {
+            _rb.AddForce(new Vector2(1,0) * dashSpeed,ForceMode2D.Impulse);
+            Debug.Log("Helo");
+        }
+        
+        if (!isFaceRight)
+        {
+            _rb.velocity = Vector2.left * dashSpeed;
+        }
+    } 
     void GroundCheck(){
         isGround = false;
 

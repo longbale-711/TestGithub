@@ -47,6 +47,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 988608211
+    locked: 0
+  - name: Things
+    uniqueID: 294176355
+    locked: 0
   - name: Player
     uniqueID: 1531262217
+    locked: 0
+  - name: 'front '
+    uniqueID: 2565043151
     locked: 0
