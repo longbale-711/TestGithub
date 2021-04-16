@@ -28,12 +28,14 @@ public class HeroController : MonoBehaviour
     public float GravityScale;
     public float Speed;
     public float JumpForce;
+    public float dashSpeed;
     public float TimeJumpEffect;
     
     public static float horizontal;
 
     //Bool Values
     private bool isGround;
+    public static bool canMove = true;
     public static bool isFaceRight;
 
     
@@ -49,10 +51,14 @@ public class HeroController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         // GravitySacle Value
         _rb.gravityScale = GravityScale;
         // Movement
-            horizontal = Input.GetAxisRaw("Horizontal");
+            if (canMove)
+            {
+                horizontal = Input.GetAxisRaw("Horizontal");
+            }
             
         // Jump
         if (Input.GetKeyDown(KeyCode.Space))
@@ -65,13 +71,22 @@ public class HeroController : MonoBehaviour
             }  
         }
         
-        GroundCheck();
+        if (!canMove)
+        {
+            Speed = 0f;
+        }
+        else 
+        {
+            Speed = 6f;
+        }
         SetAnimaition();
     }
+    
     
     private void FixedUpdate() {
         movement = new Vector2(horizontal * Speed,_rb.velocity.y);
         _rb.velocity = movement;
+        GroundCheck();
     }
 
     void GroundCheck(){
@@ -112,15 +127,17 @@ public class HeroController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "mushroom")
+        if (other.tag == "Dialog")
         {
             Dialogue.SetActive(true);
+            canMove = false;
+            Speed = 0f;
         }
     }
     //Animation
     public void SetAnimaition()
     {
-        animator.SetBool("Run",!Mathf.Approximately(horizontal,0) && isGround);
+        animator.SetBool("Run",!Mathf.Approximately(horizontal,0) && isGround && canMove);
 
         //Jump
         if ( isGround)

@@ -8,6 +8,7 @@ public class DialogueText : MonoBehaviour
     public TextMeshProUGUI textDisplay;
     public GameObject continueButton;
     public GameObject dialogue;
+    public GameObject dialogueCollider;
     //MẢNG SENTENCES CHỨA HỘI THOẠI INDEX
     public string[] sentences;
     public float typingSpeed;
@@ -51,6 +52,8 @@ public class DialogueText : MonoBehaviour
         {
             textDisplay.text = "";
             continueButton.SetActive(false);
+            HeroController.canMove = true;
+            dialogueCollider.SetActive(false);
             dialogue.SetActive(false);
         }
     }

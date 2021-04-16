@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EchoEffect : MonoBehaviour
-{
+public class Ghost : MonoBehaviour
+{    
+    public static bool ghostAbi;
     private float timeBtwSpawns;
     public float startTimeBtwSpawns;
-
     public GameObject echo;
 
     // Update is called once per frame
     void Update()
     {
-        if (HeroController.horizontal != 0)
+        //Ghost Ability
+        if (HeroController.horizontal != 0 && ghostAbi)
         {
             if (timeBtwSpawns <= 0)
             {
@@ -25,6 +26,6 @@ public class EchoEffect : MonoBehaviour
                 timeBtwSpawns -= Time.deltaTime;
             }
         }
-
+        
     }
 }
