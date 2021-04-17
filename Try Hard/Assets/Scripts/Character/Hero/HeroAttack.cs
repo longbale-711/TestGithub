@@ -23,7 +23,7 @@ public class HeroAttack : MonoBehaviour
     {
         if (Time.time >= nextAttackTime)
         {
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && HeroController.canMove)
             {
                 Attack(); 
                 nextAttackTime = Time.time + 1f / attackRate;

@@ -61,7 +61,7 @@ public class HeroController : MonoBehaviour
             }
             
         // Jump
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && canMove)
         {
             //Normal Jump
             if (isGround && JumpCount <= 0)
