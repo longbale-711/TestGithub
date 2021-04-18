@@ -10,6 +10,7 @@ TagManager:
   - Bottom
   - Top
   - Dialog
+  - Door
   layers:
   - Default
   - TransparentFX

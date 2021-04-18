@@ -13,13 +13,14 @@ public class HeroController : MonoBehaviour
     public SceneManager _Sm;
     public Transform spawnJumpEffect;
     public GameObject JumpEffect;
+    public GameObject E;
     [SerializeField] Transform groundcheckCollider;
     [SerializeField] LayerMask groundLayer;
     GameObject temp;
     private BoxCollider2D boxCollider2D;
     public GameObject Dialogue;
     Vector2 movement;
-    KeyCode lastKeyCode;
+    
     //Int Values   
     private int JumpCount;
     //Float Values
@@ -35,6 +36,7 @@ public class HeroController : MonoBehaviour
 
     //Bool Values
     private bool isGround;
+    private bool isDoor;
     public static bool canMove = true;
     public static bool isFaceRight;
 
@@ -71,6 +73,10 @@ public class HeroController : MonoBehaviour
             }  
         }
         
+        if (isDoor && Input.GetKeyDown(KeyCode.E))
+        {
+            _rb.transform.position = new Vector3(-45,12,0);
+        }
         if (!canMove)
         {
             Speed = 0f;
@@ -133,6 +139,21 @@ public class HeroController : MonoBehaviour
             canMove = false;
             Speed = 0f;
         }
+
+        if (other.tag == "Door")
+        {
+            isDoor = true;
+            if (isDoor)
+            {
+                E.SetActive(true);
+            }
+            
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other) {
+        isDoor = false;
+        E.SetActive(false);
+        
     }
     //Animation
     public void SetAnimaition()
