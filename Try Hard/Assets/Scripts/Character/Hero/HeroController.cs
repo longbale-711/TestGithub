@@ -14,6 +14,7 @@ public class HeroController : MonoBehaviour
     public Transform spawnJumpEffect;
     public GameObject JumpEffect;
     public GameObject E;
+    public GameObject Taking;
     [SerializeField] Transform groundcheckCollider;
     [SerializeField] LayerMask groundLayer;
     GameObject temp;
@@ -147,11 +148,16 @@ public class HeroController : MonoBehaviour
             {
                 E.SetActive(true);
             }
-            
+        }
+
+        if (other.tag == "Talk")
+        {
+            Taking.SetActive(true);
         }
     }
     private void OnTriggerExit2D(Collider2D other) {
         isDoor = false;
+        Taking.SetActive(false);
         E.SetActive(false);
         
     }
