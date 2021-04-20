@@ -74,10 +74,6 @@ public class HeroHP : MonoBehaviour
             }
         }
 
-        if (other.tag == "HighCheck")
-        {
-            CameraController.highCheck = true;
-        }
     }
     void Die()
     {

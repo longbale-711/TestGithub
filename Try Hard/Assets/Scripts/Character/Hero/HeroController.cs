@@ -15,6 +15,7 @@ public class HeroController : MonoBehaviour
     public GameObject JumpEffect;
     public GameObject E;
     public GameObject Taking;
+    public GameObject Room1;
     [SerializeField] Transform groundcheckCollider;
     [SerializeField] LayerMask groundLayer;
     GameObject temp;
@@ -49,6 +50,7 @@ public class HeroController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponent<SpriteRenderer>();
+        Room1.SetActive(false);
     }
 
     // Update is called once per frame
@@ -76,7 +78,8 @@ public class HeroController : MonoBehaviour
         
         if (isDoor && Input.GetKeyDown(KeyCode.E))
         {
-            _rb.transform.position = new Vector3(-45,12,0);
+            _rb.transform.position = new Vector3(-44,46,0);
+            Room1.SetActive(true);
         }
         if (!canMove)
         {
@@ -150,7 +153,7 @@ public class HeroController : MonoBehaviour
             }
         }
 
-        if (other.tag == "Talk")
+        if (other.tag == "Tutorial")
         {
             Taking.SetActive(true);
         }
