@@ -8,7 +8,6 @@ public class DialogueText : MonoBehaviour
     public TextMeshProUGUI textDisplay;
     public GameObject continueButton;
     public GameObject dialogue;
-    public GameObject dialogueCollider;
     //MẢNG SENTENCES CHỨA HỘI THOẠI INDEX
     public string[] sentences;
     public float typingSpeed;
@@ -17,12 +16,6 @@ public class DialogueText : MonoBehaviour
 
     private void Start() {
         StartCoroutine(Type());
-    }
-    private void Update() {
-        if (textDisplay.text == sentences[index])
-        {
-            continueButton.SetActive(true);
-        }
     }
     public IEnumerator Type()
     {
@@ -35,26 +28,23 @@ public class DialogueText : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
     }
-    
-    // HÀM CONTINUE CHO HỘI THOẠI
-    public void NextSentences()
-    {
-        continueButton.SetActive(false);
-        // NẾU PHẦN TỬ TRONG INDEX NHỎ HƠN 1 CÂU HAY SENTENCES - 1
-        if (index < sentences.Length - 1)
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.tag == "Player")
         {
-            index ++;
-            textDisplay.text = "";
-            StartCoroutine(Type());
-        }
-        // CHO TỚI KHI KHÔNG CÒN PHÀN TỬ TRONG CENTENCES
-        else 
-        {
-            textDisplay.text = "";
-            continueButton.SetActive(false);
-            HeroController.canMove = true;
-            dialogueCollider.SetActive(false);
-            dialogue.SetActive(false);
+            // NẾU PHẦN TỬ TRONG INDEX NHỎ HƠN 1 CÂU HAY SENTENCES - 1
+            if (index < sentences.Length - 1)
+            {
+                index ++;
+                textDisplay.text = "";
+                StartCoroutine(Type());
+            }
+            // CHO TỚI KHI KHÔNG CÒN PHÀN TỬ TRONG CENTENCES
+            else 
+            {
+                textDisplay.text = "";
+                HeroController.canMove = true;
+                dialogue.SetActive(false);
+            }
         }
     }
 }
