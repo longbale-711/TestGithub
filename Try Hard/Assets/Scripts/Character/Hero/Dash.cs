@@ -10,10 +10,11 @@ public class Dash : MonoBehaviour
     private bool canDash = true;
 
     public Rigidbody2D dashRigid;
+    public CapsuleCollider2D capsuleCollider;
     public Animator animator;
     private void Start() {
         dashRigid = GetComponent<Rigidbody2D>();
-        
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
     }
     // Update is called once per frame
     void Update()
@@ -24,12 +25,14 @@ public class Dash : MonoBehaviour
             if (!HeroController.isFaceRight)
             {
                 GetComponent<HeroController>().enabled = false;
+                capsuleCollider.enabled = false;
                 dashRigid.AddForce(Vector2.right * dashSpeed,ForceMode2D.Impulse);
                 animator.SetTrigger("IsDash");
             }
             else if (HeroController.isFaceRight)
             {
                 GetComponent<HeroController>().enabled = false;
+                capsuleCollider.enabled = false;
                 dashRigid.AddForce(Vector2.left * dashSpeed,ForceMode2D.Impulse); 
                 animator.SetTrigger("IsDash");
             }
@@ -45,6 +48,7 @@ public class Dash : MonoBehaviour
     {
         yield return new WaitForSeconds(DashRange);
         GetComponent<HeroController>().enabled = true;
+        capsuleCollider.enabled = true;
         yield return new WaitForSeconds(DashCoolDown);
         canDash = true;
     }

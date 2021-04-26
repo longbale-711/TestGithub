@@ -16,7 +16,6 @@ public class HeroController : MonoBehaviour
     [SerializeField] Transform groundcheckCollider;
     [SerializeField] LayerMask groundLayer;
     GameObject temp;
-    private BoxCollider2D boxCollider2D;
     Vector2 movement;
     
     //Int Values   
