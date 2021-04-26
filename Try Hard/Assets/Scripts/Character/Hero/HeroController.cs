@@ -13,14 +13,10 @@ public class HeroController : MonoBehaviour
     public SceneManager _Sm;
     public Transform spawnJumpEffect;
     public GameObject JumpEffect;
-    public GameObject E;
-    public GameObject Taking;
-    public GameObject Room1;
     [SerializeField] Transform groundcheckCollider;
     [SerializeField] LayerMask groundLayer;
     GameObject temp;
     private BoxCollider2D boxCollider2D;
-    public GameObject Dialogue;
     Vector2 movement;
     
     //Int Values   
@@ -38,7 +34,6 @@ public class HeroController : MonoBehaviour
 
     //Bool Values
     private bool isGround;
-    private bool isDoor;
     public static bool canMove = true;
     public static bool isFaceRight;
 
@@ -50,7 +45,6 @@ public class HeroController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody2D>();
         _sr = GetComponent<SpriteRenderer>();
-        Room1.SetActive(false);
     }
 
     // Update is called once per frame
@@ -74,12 +68,6 @@ public class HeroController : MonoBehaviour
                 Jump();
                 StartCoroutine(DestroyJumpEffect());
             }  
-        }
-        
-        if (isDoor && Input.GetKeyDown(KeyCode.E))
-        {
-            _rb.transform.position = new Vector3(-44,46,0);
-            Room1.SetActive(true);
         }
         if (!canMove)
         {
@@ -134,35 +122,6 @@ public class HeroController : MonoBehaviour
             JumpCount = 0;
             JumpForce = 25f;
         }
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Dialog")
-        {
-            Dialogue.SetActive(true);
-            canMove = false;
-            Speed = 0f;
-        }
-
-        if (other.tag == "Door")
-        {
-            isDoor = true;
-            if (isDoor)
-            {
-                E.SetActive(true);
-            }
-        }
-
-        if (other.tag == "Tutorial")
-        {
-            Taking.SetActive(true);
-        }
-    }
-    private void OnTriggerExit2D(Collider2D other) {
-        isDoor = false;
-        Taking.SetActive(false);
-        E.SetActive(false);
-        
     }
     //Animation
     public void SetAnimaition()
