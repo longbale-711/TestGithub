@@ -8,6 +8,7 @@ public class DialogueText : MonoBehaviour
     public TextMeshProUGUI textDisplay;
     public GameObject continueButton;
     public GameObject dialogue;
+    public GameObject first_plate;
     //MẢNG SENTENCES CHỨA HỘI THOẠI INDEX
     public string[] sentences;
     public float typingSpeed;
@@ -46,5 +47,8 @@ public class DialogueText : MonoBehaviour
                 dialogue.SetActive(false);
             }
         }
+    }
+    private void OnTriggerExit2D(Collider2D other) {
+        first_plate.GetComponent<BoxCollider2D>().enabled = false;
     }
 }
