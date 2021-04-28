@@ -14,23 +14,13 @@ public class DialogueText : MonoBehaviour
     public float typingSpeed;
     // HỘI THOẠI INDEX
     private int index;
+    public static bool nextSentences;
 
     private void Start() {
         StartCoroutine(Type());
     }
-    public IEnumerator Type()
-    {
-        // DUYỆT TỪNG PHẨN TỬ LETTER TRONG MẢNG SENTENCES[INDEX]
-        foreach (char letter in sentences[index].ToCharArray())
-        {
-            // IN TỪNG PHẦN TỬ LETTER RA Ô TEXT (TEXTDISPLAY.TEXT)
-            textDisplay.text += letter;
-            // THỜI GIAN ĐỢI TYPINGSPEED SAU MỖI LẦN LẶP FOREACH
-            yield return new WaitForSeconds(typingSpeed);
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Player")
+    private void Update() {
+        if (nextSentences)
         {
             // NẾU PHẦN TỬ TRONG INDEX NHỎ HƠN 1 CÂU HAY SENTENCES - 1
             if (index < sentences.Length - 1)
@@ -48,7 +38,15 @@ public class DialogueText : MonoBehaviour
             }
         }
     }
-    private void OnTriggerExit2D(Collider2D other) {
-        first_plate.GetComponent<BoxCollider2D>().enabled = false;
+    public IEnumerator Type()
+    {
+        // DUYỆT TỪNG PHẨN TỬ LETTER TRONG MẢNG SENTENCES[INDEX]
+        foreach (char letter in sentences[index].ToCharArray())
+        {
+            // IN TỪNG PHẦN TỬ LETTER RA Ô TEXT (TEXTDISPLAY.TEXT)
+            textDisplay.text += letter;
+            // THỜI GIAN ĐỢI TYPINGSPEED SAU MỖI LẦN LẶP FOREACH
+            yield return new WaitForSeconds(typingSpeed);
+        }
     }
 }

@@ -5,18 +5,17 @@ using UnityEngine;
 public class HeroHP : MonoBehaviour
 {
     [Header("INT Value")]
-    public static int maxtHealth = 10;
+    public int maxtHealth;
     public int currentHealth;
+    public static int enermies;
+    private int damaged;
+    private bool isHurt = true;
     [Header("Float Value")]
     public float knockback;
     public float knockbackRange = 0.2f;
     private float knockbackCount;
-    public float TimeDelay;
-    public float HurtTime = 1f;
-    public float waithurting = 0.5f;
     public float waitforDestroy;
-    private float nexttimeHurt;
-    private bool isDie;
+    public float nexttimeHurt;
     [Header("Component")]
     public Rigidbody2D Rigidbody2D;
     public Animator animator1;
@@ -29,35 +28,24 @@ public class HeroHP : MonoBehaviour
         setHealth.SetMaxHealth(maxtHealth);
     }
 
-
-    private void Hurt() {
-        animator1.SetTrigger("IsHurt");
-        // Knockback
-        if (knockbackCount >= 0.2) 
+    private void Update() {
+        switch (enermies)
         {
-            if (!HeroController.isFaceRight )
-            {
-                Rigidbody2D.velocity = new Vector2(-knockback,knockback);
-                
-            }
-            else if (HeroController.isFaceRight )
-            {
-                Rigidbody2D.velocity = new Vector2(knockback,knockback);
-                
-            }
+            case 1: 
+                damaged = 1;
+                break; 
+            case 2:
+                damaged = 2;
+                break;
         }
-        knockbackCount -= Time.deltaTime; 
-    
     }
-
-
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "mushroom")
+        if (other.tag == "Enermies")
         {
-            if (Time.time >= nexttimeHurt)
+            if (isHurt)
             {
                 // Taking damage
-                currentHealth -= 1;
+                currentHealth -= damaged;
                 setHealth.SetHp(currentHealth);
                 if (currentHealth <= 0)
                 {
@@ -69,11 +57,32 @@ public class HeroHP : MonoBehaviour
                     animator1.SetTrigger("IsHurt");
                     knockbackCount = knockbackRange;
                     Hurt();
+                    isHurt = false;
+                    Invoke("Reset",nexttimeHurt);
                 }
-                nexttimeHurt = Time.time;
+            }  
+        }
+    }
+    void Reset()
+    {
+        isHurt = true;
+    }
+    private void Hurt() {
+        animator1.SetTrigger("IsHurt");
+        // Knockback
+        if (knockbackCount >= 0.2) 
+        {
+            if (!HeroController.isFaceRight )
+            {
+                Rigidbody2D.velocity = new Vector2(-knockback,knockback);
+            }
+            else if (HeroController.isFaceRight )
+            {
+                Rigidbody2D.velocity = new Vector2(knockback,knockback);
             }
         }
-
+        knockbackCount -= Time.deltaTime; 
+    
     }
     void Die()
     {

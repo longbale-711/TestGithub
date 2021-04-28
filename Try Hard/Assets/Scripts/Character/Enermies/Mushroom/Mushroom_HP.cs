@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Mushroom_HP : MonoBehaviour
 {
-    public int maxMushroomHP = 100;
+    public int maxHP;
     int currentHp;
     private float dazedTime;
     public float startDazedTime;
@@ -13,14 +13,7 @@ public class Mushroom_HP : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (gameObject.tag == "mushroom")
-        {
-            currentHp = maxMushroomHP;
-        }
-        else if (gameObject.tag == "skull")
-        {
-            Debug.Log("100");
-        }
+        currentHp = maxHP;
     }
 
     private void Update() {
@@ -58,12 +51,6 @@ public class Mushroom_HP : MonoBehaviour
         //Die animation
         animator.SetBool("IsDie",true);
         //Disable the enermy
-        StartCoroutine(Destroy());
-        
-    }
-
-    IEnumerator Destroy(){
-        yield return new WaitForSeconds(WaitDieAni);
-        Destroy(gameObject);
+        Destroy(gameObject,WaitDieAni);
     }
 }

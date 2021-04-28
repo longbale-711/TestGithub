@@ -11,7 +11,8 @@ TagManager:
   - Top
   - Dialog
   - Door
-  - Tutorial
+  - mushroom
+  - Enermies
   layers:
   - Default
   - TransparentFX

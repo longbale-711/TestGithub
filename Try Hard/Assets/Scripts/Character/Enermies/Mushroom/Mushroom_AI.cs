@@ -8,10 +8,8 @@ public class Mushroom_AI : MonoBehaviour
     public float distance;
     private bool movingRight = true;
     public Transform groundDetection;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    private void Start() {
+        HeroHP.enermies = 1;
     }
 
     // Update is called once per frame
@@ -30,5 +28,8 @@ public class Mushroom_AI : MonoBehaviour
                 movingRight = true;
             }
         }
+
+        
     }
+
 }
