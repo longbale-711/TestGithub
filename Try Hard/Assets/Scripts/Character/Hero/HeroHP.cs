@@ -9,12 +9,13 @@ public class HeroHP : MonoBehaviour
     public int currentHealth;
     public static int enermies;
     private int damaged;
-    private bool isHurt = true;
+    public bool isHurt = true;
     [Header("Float Value")]
     public float knockback;
     public float knockbackRange = 0.2f;
     private float knockbackCount;
     public float waitforDestroy;
+    public float knockbackTime;
     public float nexttimeHurt;
     [Header("Component")]
     public Rigidbody2D Rigidbody2D;
@@ -55,19 +56,24 @@ public class HeroHP : MonoBehaviour
                 {
                     // Knockback
                     animator1.SetTrigger("IsHurt");
-                    knockbackCount = knockbackRange;
-                    Hurt();
                     isHurt = false;
-                    Invoke("Reset",nexttimeHurt);
+                    knockbackCount = knockbackRange;
+                    GetComponent<HeroController>().enabled = false;
+                    Hurt();
+                    StartCoroutine(waitKnockBack());
                 }
             }  
         }
     }
-    void Reset()
+    IEnumerator waitKnockBack()
     {
+        yield return new WaitForSeconds(knockbackTime);
+        GetComponent<HeroController>().enabled = true;
+        yield return new WaitForSeconds(nexttimeHurt);
         isHurt = true;
     }
-    private void Hurt() {
+
+    public void Hurt() {
         animator1.SetTrigger("IsHurt");
         // Knockback
         if (knockbackCount >= 0.2) 
@@ -75,6 +81,7 @@ public class HeroHP : MonoBehaviour
             if (!HeroController.isFaceRight )
             {
                 Rigidbody2D.velocity = new Vector2(-knockback,knockback);
+                
             }
             else if (HeroController.isFaceRight )
             {
