@@ -13,6 +13,11 @@ TagManager:
   - Door
   - mushroom
   - Enermies
+  - Trap
+  - Stone
+  - KeyHole
+  - Platform
+  - Coin
   layers:
   - Default
   - TransparentFX

@@ -7,9 +7,9 @@ public class HeroHP : MonoBehaviour
     [Header("INT Value")]
     public int maxtHealth;
     public int currentHealth;
-    public static int enermies;
+    public static int damageTaken;
     private int damaged;
-    public bool isHurt = true;
+    public static bool isHurt = true;
     [Header("Float Value")]
     public float knockback;
     public float knockbackRange = 0.2f;
@@ -30,15 +30,9 @@ public class HeroHP : MonoBehaviour
     }
 
     private void Update() {
-        switch (enermies)
-        {
-            case 1: 
-                damaged = 1;
-                break; 
-            case 2:
-                damaged = 2;
-                break;
-        }
+        damaged = damageTaken;
+
+        
     }
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Enermies")
@@ -46,24 +40,48 @@ public class HeroHP : MonoBehaviour
             if (isHurt)
             {
                 // Taking damage
-                currentHealth -= damaged;
-                setHealth.SetHp(currentHealth);
-                if (currentHealth <= 0)
-                {
-                    Die();
-                }
-                else
-                {
-                    // Knockback
-                    animator1.SetTrigger("IsHurt");
-                    isHurt = false;
-                    knockbackCount = knockbackRange;
-                    GetComponent<HeroController>().enabled = false;
-                    Hurt();
-                    StartCoroutine(waitKnockBack());
-                }
+                TakeDamaged(damaged);
+                TimeHurt();
             }  
         }
+    }
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.CompareTag("Trap"))
+        {
+            if (Spike.spikecheck == true)
+            {
+                // Taking damage
+                TakeDamaged(damaged);
+                TimeHurt();
+            }
+            
+        }
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            gameObject.transform.position = new Vector3(117,-13,0);
+        }
+    }
+    void TakeDamaged(int damage)
+    {
+        currentHealth -= damaged;
+        setHealth.SetHp(currentHealth);
+    }
+    void TimeHurt()
+    {
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
+            else
+            {
+                // Knockback
+                animator1.SetTrigger("IsHurt");
+                isHurt = false;
+                knockbackCount = knockbackRange;
+                GetComponent<HeroController>().enabled = false;
+                Hurt();
+                StartCoroutine(waitKnockBack());
+            }
     }
     IEnumerator waitKnockBack()
     {
@@ -71,6 +89,7 @@ public class HeroHP : MonoBehaviour
         GetComponent<HeroController>().enabled = true;
         yield return new WaitForSeconds(nexttimeHurt);
         isHurt = true;
+        knockback = 6f;
     }
 
     public void Hurt() {

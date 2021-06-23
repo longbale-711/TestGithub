@@ -13,6 +13,7 @@ public class HeroController : MonoBehaviour
     public SceneManager _Sm;
     public Transform spawnJumpEffect;
     public GameObject JumpEffect;
+    public GameObject player;
     [SerializeField] Transform groundcheckCollider;
     [SerializeField] LayerMask groundLayer;
     GameObject temp;
@@ -32,7 +33,10 @@ public class HeroController : MonoBehaviour
     public static float horizontal;
 
     //Bool Values
+    private bool isJump;
+    private bool isFall;
     private bool isGround;
+    private bool isPlatform;
     public static bool canMove = true;
     public static bool isFaceRight;
 
@@ -68,6 +72,7 @@ public class HeroController : MonoBehaviour
                 StartCoroutine(DestroyJumpEffect());
             }  
         }
+
         if (!canMove)
         {
             Speed = 0f;
@@ -121,7 +126,15 @@ public class HeroController : MonoBehaviour
             JumpCount = 0;
             JumpForce = 25f;
         }
+        if (hitGround.transform.tag == "Platform")
+        {
+            this.transform.parent = hitGround.transform;
+        }
     }
+    private void OnCollisionExit2D(Collision2D other) {
+        this.transform.parent = null;
+    }
+    
     //Animation
     public void SetAnimaition()
     {
@@ -130,19 +143,24 @@ public class HeroController : MonoBehaviour
         //Jump
         if ( isGround)
         {
-            animator.SetBool("IsJumping",false); 
-            animator.SetBool("IsFalling",false);
+            isJump = false;
+            isFall = false;
+            animator.SetBool("IsJumping",isJump); 
+            animator.SetBool("IsFalling",isFall);
         }
 
         if (_rb.velocity.y > 2)
         {   
-            animator.SetBool("IsJumping",true); 
+            isJump = true;
+            animator.SetBool("IsJumping",isJump); 
         }
 
-        if(_rb.velocity.y < 0)
+        if(_rb.velocity.y < 0 && isPlatform == false)
         {
-            animator.SetBool("IsJumping",false);
-            animator.SetBool("IsFalling",true);
+            isJump = false;
+            isFall = true;
+            animator.SetBool("IsJumping",isJump);
+            animator.SetBool("IsFalling",isFall);
         }
         //FLIP
         if (horizontal > 0 && isFaceRight)

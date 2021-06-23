@@ -6,6 +6,8 @@ public class Spike : MonoBehaviour
 {
     public float SpikeSpeed;
     public Rigidbody2D rigidbody2;
+
+    public static bool spikecheck = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,5 +18,13 @@ public class Spike : MonoBehaviour
     void Update()
     {
         rigidbody2.velocity = Vector2.down * SpikeSpeed;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            spikecheck = false;
+            
+        }
     }
 }

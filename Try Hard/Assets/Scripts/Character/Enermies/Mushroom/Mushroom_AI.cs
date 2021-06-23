@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Mushroom_AI : MonoBehaviour
 {
+    // public | private | protected + float | bool | int,... + tenvalue
     public float MushroomSpeed;
     public float distance;
     private bool movingRight = true;
+    public static bool mushroom;
     public Transform groundDetection;
-    private void Start() {
-        HeroHP.enermies = 1;
-    }
 
     // Update is called once per frame
     void Update()
@@ -31,5 +30,6 @@ public class Mushroom_AI : MonoBehaviour
 
         
     }
+
 
 }
